@@ -2,6 +2,18 @@ This is a fork that hides the notification badge ([setShowBadge](https://develop
 
 Useful when you need this foreground service to keep a connection with a bluetooth fitness band in background.
 
+## Install
+
+```bash
+npm i https://github.com/TouchMedia360/rn-foreground-service
+```
+
+or
+
+```bash
+yarn add https://github.com/TouchMedia360/rn-foreground-service
+```
+
 
 # @supersami/rn-foreground-service 🤟
 
