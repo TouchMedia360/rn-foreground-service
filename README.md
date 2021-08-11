@@ -1,3 +1,8 @@
+This is a fork that hides the notification badge ([setShowBadge](https://developer.android.com/training/notify-user/badges#disable) android docs).
+
+Useful when you need this foreground service to keep a connection with a bluetooth fitness band in background.
+
+
 # @supersami/rn-foreground-service 🤟
 
 > A foreground service with headless task that can manage multiple headless tasks execution at the same time and handle interactions. 🎉
