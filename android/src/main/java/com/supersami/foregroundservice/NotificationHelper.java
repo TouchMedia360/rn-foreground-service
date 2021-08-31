@@ -166,7 +166,9 @@ class NotificationHelper {
         if (largeIconResId != 0) {
             notificationBuilder.setLargeIcon(largeIconBitmap);
         }
-
+        
+        notificationBuilder.setNumber(0);
+        
         return notificationBuilder.build();
     }
 
