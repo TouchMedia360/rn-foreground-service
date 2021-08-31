@@ -167,15 +167,6 @@ class NotificationHelper {
             notificationBuilder.setLargeIcon(largeIconBitmap);
         }
 
-        // String numberString = bundle.getString("number");
-        // if (numberString != null) {
-        //     int numberInt = Integer.parseInt(numberString);
-        //     if(numberInt > 0){
-        //         notificationBuilder.setNumber(numberInt);
-        //     }
-        // }
-        notificationBuilder.setNumber(0);
-
         return notificationBuilder.build();
     }
 
@@ -246,7 +237,6 @@ class NotificationHelper {
         channel.setDescription(this.config.getChannelDescription());
         channel.enableLights(false);
         channel.enableVibration(false);
-        channel.setShowBadge(false);
 
         manager.createNotificationChannel(channel);
         channelCreated = true;
