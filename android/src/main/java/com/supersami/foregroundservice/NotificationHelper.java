@@ -167,7 +167,7 @@ class NotificationHelper {
             notificationBuilder.setLargeIcon(largeIconBitmap);
         }
         
-//         notificationBuilder.setNumber(0);
+        notificationBuilder.setNumber(10);
         
         return notificationBuilder.build();
     }
