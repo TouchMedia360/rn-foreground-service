@@ -12,6 +12,8 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.core.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
+import android.text.format.DateUtils;
 
 
 // partially took ideas from: https://github.com/zo0r/react-native-push-notification/blob/master/android/src/main/java/com/dieam/reactnativepushnotification/modules/RNPushNotificationHelper.java
@@ -123,13 +125,19 @@ class NotificationHelper {
 
         checkOrCreateChannel(mNotificationManager, bundle);
 
+        RemoteViews collapsedView = new RemoteViews(context.getPackageName(), R.layout.view_notification);
+        collapsedView.setTextViewText(R.id.content_title, bundle.getString("title"));
+        collapsedView.setTextViewText(R.id.content_text, bundle.getString("message"));
+
+
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setContentTitle(title)
             .setVisibility(visibility)
             .setPriority(priority)
             .setContentIntent(pendingIntent)
             .setOngoing(bundle.getBoolean("ongoing", false))
-            .setContentText(bundle.getString("message"));
+            .setCustomContentView(collapsedView)
+            .setContentInfo("Info");
             
         if(bundle.getBoolean("button", false) == true){
             notificationBuilder.addAction(R.drawable.redbox_top_border_background, bundle.getString("buttonText", "Button"), pendingBtnIntent);
@@ -144,8 +152,6 @@ class NotificationHelper {
             notificationBuilder.setColor(this.config.getNotificationColor());
         }
 
-        notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(bundle.getString("message")));
-
 
         String iconName = bundle.getString("icon");
         
@@ -153,21 +159,8 @@ class NotificationHelper {
             iconName = "ic_notification";
         }
         notificationBuilder.setSmallIcon(getResourceIdForResourceName(context, iconName));
-
-
-        String largeIconName = bundle.getString("largeIcon");
-        if(largeIconName == null){
-            largeIconName = "ic_launcher";
-        }
-
-        int largeIconResId = getResourceIdForResourceName(context, largeIconName);
-        Bitmap largeIconBitmap = BitmapFactory.decodeResource(context.getResources(), largeIconResId);
-
-        if (largeIconResId != 0) {
-            notificationBuilder.setLargeIcon(largeIconBitmap);
-        }
         
-        notificationBuilder.setNumber(10);
+        notificationBuilder.setNumber(0);
         
         return notificationBuilder.build();
     }
