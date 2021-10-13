@@ -158,7 +158,7 @@ class NotificationHelper {
         if(iconName == null){
             iconName = "ic_notification";
         }
-        notificationBuilder.setSmallIcon(getResourceIdForResourceName(context, iconName));
+        notificationBuilder.setSmallIcon(getResourceIdForResourceName(context, "xwristlogosm"));
         
         notificationBuilder.setNumber(0);
         
