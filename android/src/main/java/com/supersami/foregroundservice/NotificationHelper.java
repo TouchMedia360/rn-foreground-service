@@ -136,6 +136,11 @@ class NotificationHelper {
             .setPriority(priority)
             .setContentIntent(pendingIntent)
             .setOngoing(bundle.getBoolean("ongoing", false))
+            .setOnlyAlertOnce(true)
+            .setSound(null)
+            .setDefaults(NotificationCompat.DEFAULT_LIGHTS)
+            // .setNotificationSilent() // deprecated. use setsilent
+            // .setSilent(true) // does not work. maybe we use an outdated version
             .setCustomContentView(collapsedView)
             .setContentInfo("Info");
             
