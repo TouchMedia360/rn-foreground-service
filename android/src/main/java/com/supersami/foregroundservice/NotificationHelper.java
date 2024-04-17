@@ -145,11 +145,11 @@ class NotificationHelper {
             .setContentInfo("Info");
             
         if(bundle.getBoolean("button", false) == true){
-            notificationBuilder.addAction(R.drawable.redbox_top_border_background, bundle.getString("buttonText", "Button"), pendingBtnIntent);
+            notificationBuilder.addAction(android.R.drawable.ic_menu_help, bundle.getString("buttonText", "Button"), pendingBtnIntent);
         }
 
         if(bundle.getBoolean("button2", false) == true){
-            notificationBuilder.addAction(R.drawable.redbox_top_border_background, bundle.getString("button2Text", "Button"), pendingBtn2Intent);
+            notificationBuilder.addAction(android.R.drawable.ic_menu_help, bundle.getString("button2Text", "Button"), pendingBtn2Intent);
         }
 
 
