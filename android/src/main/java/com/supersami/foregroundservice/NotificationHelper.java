@@ -59,14 +59,14 @@ class NotificationHelper {
         Intent notificationIntent = new Intent(context, mainActivityClass);
         notificationIntent.putExtra("mainOnPress",bundle.getString("mainOnPress"));
         int uniqueInt1 = (int) (System.currentTimeMillis() & 0xfffffff);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, uniqueInt1, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, uniqueInt1, notificationIntent, getPendingIntentFlags());
 
         if(bundle.getBoolean("button", false) == true) {
             Log.d("SuperLog C ", "inButtonOnPress" + bundle.getString("buttonOnPress"));
             Intent notificationBtnIntent = new Intent(context, mainActivityClass);
             notificationBtnIntent.putExtra("buttonOnPress", bundle.getString("buttonOnPress"));
             int uniqueInt = (int) (System.currentTimeMillis() & 0xfffffff);
-            pendingBtnIntent = PendingIntent.getActivity(context, uniqueInt, notificationBtnIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingBtnIntent = PendingIntent.getActivity(context, uniqueInt, notificationBtnIntent, getPendingIntentFlags());
         }
 
         if(bundle.getBoolean("button2", false) == true) {
@@ -74,21 +74,21 @@ class NotificationHelper {
             Intent notificationBtn2Intent = new Intent(context, mainActivityClass);
             notificationBtn2Intent.putExtra("button2OnPress", bundle.getString("button2OnPress"));
             int uniqueInt2 = (int) (System.currentTimeMillis() & 0xfffffff);
-            pendingBtn2Intent = PendingIntent.getActivity(context, uniqueInt2, notificationBtn2Intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingBtn2Intent = PendingIntent.getActivity(context, uniqueInt2, notificationBtn2Intent, getPendingIntentFlags());
         }
 
         String title = bundle.getString("title");
 
-        int priority = NotificationCompat.PRIORITY_HIGH;
+        int priority = NotificationCompat.PRIORITY_LOW;
         final String priorityString = bundle.getString("importance");
 
         if (priorityString != null) {
             switch(priorityString.toLowerCase()) {
                 case "max":
-                    priority = NotificationCompat.PRIORITY_MAX;
+                    priority = NotificationCompat.PRIORITY_LOW;
                     break;
                 case "high":
-                    priority = NotificationCompat.PRIORITY_HIGH;
+                    priority = NotificationCompat.PRIORITY_LOW;
                     break;
                 case "low":
                     priority = NotificationCompat.PRIORITY_LOW;
@@ -100,7 +100,7 @@ class NotificationHelper {
                     priority = NotificationCompat.PRIORITY_DEFAULT;
                     break;
                 default:
-                    priority = NotificationCompat.PRIORITY_HIGH;
+                    priority = NotificationCompat.PRIORITY_LOW;
             }
         }
 
@@ -138,7 +138,8 @@ class NotificationHelper {
             .setOngoing(bundle.getBoolean("ongoing", false))
             .setOnlyAlertOnce(true)
             .setSound(null)
-            .setDefaults(NotificationCompat.DEFAULT_LIGHTS)
+            .setDefaults(0)
+            .setSilent(true)
             // .setNotificationSilent() // deprecated. use setsilent
             // .setSilent(true) // does not work. maybe we use an outdated version
             .setCustomContentView(collapsedView)
@@ -202,7 +203,7 @@ class NotificationHelper {
         if (manager == null)
             return;
 
-        int importance = NotificationManager.IMPORTANCE_HIGH;
+        int importance = NotificationManager.IMPORTANCE_LOW;
         final String importanceString = bundle.getString("importance");
 
         if (importanceString != null) {
@@ -211,10 +212,10 @@ class NotificationHelper {
                     importance = NotificationManager.IMPORTANCE_DEFAULT;
                     break;
                 case "max":
-                    importance = NotificationManager.IMPORTANCE_MAX;
+                    importance = NotificationManager.IMPORTANCE_LOW;
                     break;
                 case "high":
-                    importance = NotificationManager.IMPORTANCE_HIGH;
+                    importance = NotificationManager.IMPORTANCE_LOW;
                     break;
                 case "low":
                     importance = NotificationManager.IMPORTANCE_LOW;
@@ -229,7 +230,7 @@ class NotificationHelper {
                     importance = NotificationManager.IMPORTANCE_UNSPECIFIED;
                     break;
                 default:
-                    importance = NotificationManager.IMPORTANCE_HIGH;
+                    importance = NotificationManager.IMPORTANCE_LOW;
             }
         }
         Log.d("Check ", ""+bundle.getBoolean("vibration"));
@@ -237,8 +238,17 @@ class NotificationHelper {
         channel.setDescription(this.config.getChannelDescription());
         channel.enableLights(false);
         channel.enableVibration(false);
+        channel.setSound(null, null);
 
         manager.createNotificationChannel(channel);
         channelCreated = true;
+    }
+
+    private int getPendingIntentFlags() {
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+        return flags;
     }
 }
